@@ -12,7 +12,7 @@ import { profile } from '../data/portfolio'
     <div
       class="relative mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-6 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 lg:px-12"
     >
-      <div class="hero-media relative order-2 flex justify-center lg:order-2 lg:justify-end">
+      <div class="hero-media relative order-1 flex justify-center lg:order-2 lg:justify-end">
         <div class="relative w-full max-w-[420px] sm:max-w-[500px] lg:max-w-[500px]">
           <div class="absolute inset-8 -z-10 rounded-[2rem] bg-white/10 blur-3xl"></div>
 
@@ -34,7 +34,7 @@ import { profile } from '../data/portfolio'
         </div>
       </div>
 
-      <div class="hero-copy order-1 flex flex-col items-start lg:order-1">
+      <div class="hero-copy order-2 flex flex-col items-start lg:order-1">
         <span class="mb-5 inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.25em] text-white/80">
           Data Analyst
         </span>
