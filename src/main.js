@@ -1,29 +1,47 @@
 import { createApp } from 'vue'
-import { MotionPlugin } from '@vueuse/motion'
 import App from './App.vue'
-import './theme.css'
 import './index.css'
+import './theme.css'
 
 const app = createApp(App)
-app.use(MotionPlugin)
+app.mount('#app')
 
 const cursor = document.createElement('div')
-cursor.className = 'custom-cursor'
-cursor.innerHTML = `
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path d="M3 3.5L15.5 12L8 12L15.5 20.5L12.8 20.5L4 12L3 3.5Z" />
-  </svg>
-`
+cursor.className = 'cursor'
 document.body.appendChild(cursor)
 
-window.addEventListener('pointermove', (event) => {
-  cursor.style.left = `${event.clientX}px`
-  cursor.style.top = `${event.clientY}px`
-  cursor.classList.remove('custom-cursor--hidden')
-})
+const setCursorPosition = (event) => {
+  cursor.style.opacity = '1'
+  cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`
+}
 
+window.addEventListener('pointermove', setCursorPosition)
 window.addEventListener('pointerleave', () => {
-  cursor.classList.add('custom-cursor--hidden')
+  cursor.style.opacity = '0'
+})
+window.addEventListener('pointerenter', () => {
+  cursor.style.opacity = '1'
 })
 
-app.mount('#app')
+const interactiveElements = document.querySelectorAll('.cursor-button, button, a')
+interactiveElements.forEach((element) => {
+  element.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '0'
+    element.style.cursor = 'pointer'
+  })
+
+  element.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '1'
+    element.style.cursor = ''
+  })
+})
+
+const hideCursorSystemwide = () => {
+  if (document.querySelector(':hover') && !document.querySelector('.cursor-button:hover, button:hover, a:hover')) {
+    document.body.style.cursor = 'none'
+  } else {
+    document.body.style.cursor = ''
+  }
+}
+
+window.addEventListener('pointermove', hideCursorSystemwide)
