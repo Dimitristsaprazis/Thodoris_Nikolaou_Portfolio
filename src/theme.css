@@ -13,6 +13,11 @@
 
 html {
   background-color: var(--color-bg);
+  scroll-behavior: smooth;
+}
+
+#projects {
+  scroll-margin-top: 0;
 }
 
 body {

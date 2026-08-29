@@ -1,5 +1,12 @@
 <script setup>
 import { profile } from '../data/portfolio'
+
+const scrollToProjects = () => {
+  document.getElementById('projects')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
+}
 </script>
 
 <template>
@@ -72,6 +79,30 @@ import { profile } from '../data/portfolio'
             Download CV
           </a>
         </div>
+
+        <button
+          type="button"
+          @click="scrollToProjects"
+          class="group mt-8 inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/65 transition hover:text-white"
+          aria-label="Scroll to projects"
+        >
+          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.03] transition group-hover:border-white/30 group-hover:bg-white/5">
+            <svg
+              viewBox="0 0 24 24"
+              class="h-4 w-4 animate-bounce text-white"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 5v14" />
+              <path d="m6 13 6 6 6-6" />
+            </svg>
+          </span>
+          <span>Scroll</span>
+        </button>
       </div>
 
     </div>

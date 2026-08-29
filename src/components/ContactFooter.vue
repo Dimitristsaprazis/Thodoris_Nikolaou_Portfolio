@@ -19,37 +19,54 @@ const getIcon = (label) => {
 
 <template>
   <footer id="contact" class="border-t border-white/10 bg-bg py-16 sm:py-20">
-    <div class="mx-auto max-w-6xl px-6 sm:px-8">
-      <div class="rounded-[1.6rem] border border-white/10 bg-white/[0.02] p-6 sm:p-8">
-        <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <div class="mx-auto max-w-7xl px-6 sm:px-8">
+      <div class="relative overflow-hidden border border-white/10 bg-[#0d0d0d] p-6 sm:p-8 lg:p-10">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.09),transparent_30%)]"></div>
+        <div class="absolute inset-[10px] border border-white/5"></div>
+
+        <div class="relative grid gap-10 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div>
-            <p class="text-[10px] font-medium uppercase tracking-[0.3em] text-white/50">Contact</p>
-            <h2 class="mt-3 font-heading text-3xl tracking-[-0.06em] text-white sm:text-5xl">Let’s talk.</h2>
+            <p class="text-[10px] font-medium uppercase tracking-[0.28em] text-white/50">Contact</p>
+            <h2 class="mt-4 max-w-xl font-heading text-5xl leading-none tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
+              Let’s build something measurable.
+            </h2>
+            <p class="mt-5 max-w-lg text-base leading-7 text-white/65 sm:text-lg">
+              I turn messy data into clear decisions, sharp dashboards, and business-ready insight.
+            </p>
           </div>
 
-          <a
-            :href="`mailto:${profile.contactEmail}`"
-            class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-5 py-3 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white/90"
-          >
-            Email me
-          </a>
+          <div class="flex flex-col gap-4 lg:items-end">
+            <a
+              :href="`mailto:${profile.contactEmail}`"
+              class="inline-flex w-full max-w-[220px] items-center justify-between border border-white/15 bg-white px-5 py-4 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white/90"
+            >
+              <span>Email me</span>
+              <span aria-hidden="true">→</span>
+            </a>
+
+            <div class="flex items-center gap-3">
+              <a
+                v-for="link in socialLinks"
+                :key="link.label"
+                :href="link.href"
+                class="group inline-flex h-12 w-12 items-center justify-center border border-white/10 bg-white/[0.02] text-white/70 transition hover:border-white/20 hover:bg-white/5 hover:text-white"
+                target="_blank"
+                rel="noreferrer"
+                :aria-label="link.label"
+              >
+                <span v-html="getIcon(link.label)" class="group-hover:scale-105 transition-transform" />
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div class="mt-8 flex flex-col gap-4 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="relative mt-10 flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
           <p class="text-sm text-white/60">© {{ new Date().getFullYear() }} {{ profile.name }}</p>
 
-          <div class="flex items-center gap-3">
-            <a
-              v-for="link in socialLinks"
-              :key="link.label"
-              :href="link.href"
-              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-white/70 transition hover:border-white/20 hover:text-white"
-              target="_blank"
-              rel="noreferrer"
-              :aria-label="link.label"
-            >
-              <span v-html="getIcon(link.label)" />
-            </a>
+          <div class="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/50">
+            <span class="border border-white/10 bg-white/[0.02] px-2.5 py-2">Data analysis</span>
+            <span class="border border-white/10 bg-white/[0.02] px-2.5 py-2">Dashboarding</span>
+            <span class="border border-white/10 bg-white/[0.02] px-2.5 py-2">Insights</span>
           </div>
         </div>
       </div>
