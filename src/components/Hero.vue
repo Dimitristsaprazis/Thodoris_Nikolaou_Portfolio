@@ -1,11 +1,26 @@
 <script setup>
-import { profile } from '../data/portfolio'
+const props = defineProps({
+  content: {
+    type: Object,
+    required: true,
+  },
+  locale: {
+    type: String,
+    default: 'en',
+  },
+})
+
+const emit = defineEmits(['change-language'])
 
 const scrollToProjects = () => {
   document.getElementById('projects')?.scrollIntoView({
     behavior: 'smooth',
-    block: 'start'
+    block: 'start',
   })
+}
+
+const setLanguage = (value) => {
+  emit('change-language', value)
 }
 </script>
 
@@ -16,8 +31,34 @@ const scrollToProjects = () => {
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_26%)]"></div>
     </div>
 
+    <div class="absolute right-5 top-5 z-20 sm:right-8 lg:right-12">
+      <div class="relative inline-flex h-10 w-[6.25rem] items-center rounded-full border border-white/15 bg-black/30 p-1 backdrop-blur-md shadow-[0_10px_24px_rgba(0,0,0,0.25)]">
+        <div
+          class="absolute left-1 top-1 h-8 w-[2.9rem] rounded-full bg-white shadow-[0_8px_18px_rgba(255,255,255,0.2)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          :style="{ transform: locale === 'el' ? 'translateX(2.85rem)' : 'translateX(0)' }"
+        ></div>
+
+        <button
+          type="button"
+          @click="setLanguage('en')"
+          class="relative z-10 flex h-8 w-1/2 items-center justify-center rounded-full text-[9px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 ease-out"
+          :class="locale === 'en' ? 'text-black' : 'text-white/70 hover:text-white'"
+        >
+          EN
+        </button>
+        <button
+          type="button"
+          @click="setLanguage('el')"
+          class="relative z-10 flex h-8 w-1/2 items-center justify-center rounded-full text-[9px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 ease-out"
+          :class="locale === 'el' ? 'text-black' : 'text-white/70 hover:text-white'"
+        >
+          EL
+        </button>
+      </div>
+    </div>
+
     <div
-      class="relative mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-6 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 lg:px-12"
+      class="relative mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-6 pb-12 pt-20 sm:px-8 sm:pb-16 sm:pt-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10 lg:px-12 lg:pt-12"
     >
       <div class="hero-media relative order-1 flex justify-center lg:order-2 lg:justify-end">
         <div class="relative w-full max-w-[420px] sm:max-w-[500px] lg:max-w-[500px]">
@@ -32,8 +73,8 @@ const scrollToProjects = () => {
               <div class="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.18),transparent_30%,transparent_70%,rgba(255,255,255,0.08))]"></div>
               <div class="absolute inset-4 rounded-[1.4rem] border border-white/10"></div>
               <img
-                :src="profile.image"
-                alt="Portrait of Theodoros Nikolaou"
+                :src="content.profile.image"
+                :alt="content.profile.name"
                 class="relative h-[280px] w-full object-cover grayscale contrast-[1.15] saturate-0 sm:h-[360px] lg:h-[540px]"
               />
             </div>
@@ -41,21 +82,21 @@ const scrollToProjects = () => {
         </div>
       </div>
 
-      <div class="hero-copy order-2 flex flex-col items-start lg:order-1">
+      <div class="hero-copy order-2 flex flex-col items-start pt-10 lg:order-1 lg:pt-0">
         <span class="mb-5 inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.25em] text-white/80">
-          Data Analyst
+          {{ content.hero.badge }}
         </span>
 
         <h1 class="max-w-xl font-heading text-5xl font-semibold leading-none tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
-          {{ profile.name }}
+          {{ content.profile.name }}
         </h1>
 
         <p class="mt-5 max-w-xl text-lg font-medium text-white/70 sm:text-xl">
-          {{ profile.title }}
+          {{ content.profile.title }}
         </p>
 
         <p class="mt-6 max-w-lg text-base leading-7 text-white/65 sm:text-lg">
-          {{ profile.pitch }}
+          {{ content.profile.pitch }}
         </p>
 
         <div class="mt-7 flex flex-wrap items-center gap-3 text-[10px] font-medium uppercase tracking-[0.2em] text-white/60">
@@ -68,15 +109,15 @@ const scrollToProjects = () => {
         <div class="mt-8 flex flex-wrap gap-4">
           <a
             class="cursor-button inline-flex items-center justify-center rounded-full border border-white/20 bg-white px-6 py-3 text-sm font-semibold text-black transition duration-200 hover:-translate-y-0.5 hover:bg-white/90"
-            href="mailto:hello@nikolai-portfolio.com"
+            :href="`mailto:${content.profile.contactEmail}`"
           >
-            Let’s talk
+            {{ content.hero.cta }}
           </a>
           <a
             class="cursor-button inline-flex items-center justify-center rounded-full border border-white/15 bg-transparent px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/5"
-            :href="profile.cvUrl"
+            :href="content.profile.cvUrl"
           >
-            Download CV
+            {{ content.hero.cv }}
           </a>
         </div>
 
@@ -84,7 +125,7 @@ const scrollToProjects = () => {
           type="button"
           @click="scrollToProjects"
           class="group mt-8 inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/65 transition hover:text-white"
-          aria-label="Scroll to projects"
+          :aria-label="content.hero.scroll"
         >
           <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.03] transition group-hover:border-white/30 group-hover:bg-white/5">
             <svg
@@ -101,10 +142,9 @@ const scrollToProjects = () => {
               <path d="m6 13 6 6 6-6" />
             </svg>
           </span>
-          <span>Scroll</span>
+          <span>{{ content.hero.scroll }}</span>
         </button>
       </div>
-
     </div>
   </section>
 </template>

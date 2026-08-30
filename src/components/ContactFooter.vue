@@ -1,5 +1,12 @@
 <script setup>
-import { profile, socialLinks } from '../data/portfolio'
+import { socialLinks } from '../data/portfolio'
+
+const props = defineProps({
+  content: {
+    type: Object,
+    required: true,
+  },
+})
 
 const getIcon = (label) => {
   const base = 'h-4 w-4'
@@ -26,21 +33,21 @@ const getIcon = (label) => {
 
         <div class="relative grid gap-10 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
           <div>
-            <p class="text-[10px] font-medium uppercase tracking-[0.28em] text-white/50">Contact</p>
+            <p class="text-[10px] font-medium uppercase tracking-[0.28em] text-white/50">{{ content.footer.label }}</p>
             <h2 class="mt-4 max-w-xl font-heading text-5xl leading-none tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
-              Let’s build something measurable.
+              {{ content.footer.heading }}
             </h2>
             <p class="mt-5 max-w-lg text-base leading-7 text-white/65 sm:text-lg">
-              I turn messy data into clear decisions, sharp dashboards, and business-ready insight.
+              {{ content.footer.description }}
             </p>
           </div>
 
           <div class="flex flex-col gap-4 lg:items-end">
             <a
-              :href="`mailto:${profile.contactEmail}`"
+              :href="`mailto:${content.profile.contactEmail}`"
               class="inline-flex w-full max-w-[220px] items-center justify-between border border-white/15 bg-white px-5 py-4 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white/90"
             >
-              <span>Email me</span>
+              <span>{{ content.footer.email }}</span>
               <span aria-hidden="true">→</span>
             </a>
 
@@ -61,12 +68,16 @@ const getIcon = (label) => {
         </div>
 
         <div class="relative mt-10 flex flex-col gap-4 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <p class="text-sm text-white/60">© {{ new Date().getFullYear() }} {{ profile.name }}</p>
+          <p class="text-sm text-white/60">© {{ new Date().getFullYear() }} {{ content.profile.name }}</p>
 
           <div class="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/50">
-            <span class="border border-white/10 bg-white/[0.02] px-2.5 py-2">Data analysis</span>
-            <span class="border border-white/10 bg-white/[0.02] px-2.5 py-2">Dashboarding</span>
-            <span class="border border-white/10 bg-white/[0.02] px-2.5 py-2">Insights</span>
+            <span
+              v-for="tag in content.footer.tags"
+              :key="tag"
+              class="border border-white/10 bg-white/[0.02] px-2.5 py-2"
+            >
+              {{ tag }}
+            </span>
           </div>
         </div>
       </div>

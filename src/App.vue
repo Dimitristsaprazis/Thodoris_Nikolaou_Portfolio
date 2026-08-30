@@ -1,10 +1,35 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Hero from './components/Hero.vue'
 import Projects from './components/Projects.vue'
 import ContactFooter from './components/ContactFooter.vue'
+import { siteContent } from './data/portfolio'
 
+const locale = ref('en')
 const showBackToTop = ref(false)
+
+if (typeof window !== 'undefined') {
+  const savedLocale = localStorage.getItem('portfolio-language')
+  if (savedLocale === 'en' || savedLocale === 'el') {
+    locale.value = savedLocale
+  }
+}
+
+watch(
+  locale,
+  (value) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('portfolio-language', value)
+    }
+  },
+  { immediate: true }
+)
+
+const currentContent = computed(() => siteContent[locale.value])
+
+const setLanguage = (value) => {
+  locale.value = value
+}
 
 const handleScroll = () => {
   showBackToTop.value = window.scrollY > 420
@@ -29,9 +54,13 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="min-h-screen bg-bg text-text">
-    <Hero />
-    <Projects />
-    <ContactFooter />
+    <Hero
+      :content="currentContent"
+      :locale="locale"
+      @change-language="setLanguage"
+    />
+    <Projects :content="currentContent" :locale="locale" />
+    <ContactFooter :content="currentContent" :locale="locale" />
 
     <button
       v-show="showBackToTop"
